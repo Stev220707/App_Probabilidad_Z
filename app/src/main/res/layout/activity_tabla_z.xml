@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@drawable/fondo_animado"
+    android:padding="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- 🔍 BUSCADOR PRO -->
+    <EditText
+        android:id="@+id/etBuscarZ"
+        android:hint="Buscar valor Z (ej: 1.23)"
+        android:textColor="#FFF"
+        android:background="@drawable/input_ios"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:padding="12dp"
+        android:inputType="numberDecimal"
+        android:layout_marginBottom="10dp"/>
+
+    <HorizontalScrollView
+        android:id="@+id/hScroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:id="@+id/vScroll"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <TableLayout
+                android:id="@+id/tablaZ"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </ScrollView>
+    </HorizontalScrollView>
+
+</LinearLayout>

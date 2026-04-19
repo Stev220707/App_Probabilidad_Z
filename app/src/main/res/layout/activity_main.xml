@@ -1,0 +1,118 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/fondo_pro"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:padding="20dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="@string/titulo"
+            android:textSize="28sp"
+            android:textColor="#00FFFF"
+            android:gravity="center"
+            android:layout_marginBottom="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <!-- INPUTS -->
+        <EditText
+            android:id="@+id/etX"
+            android:background="@drawable/input_ios"
+            android:hint="@string/valor_x"
+            android:layout_marginBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"/>
+
+        <EditText
+            android:id="@+id/etMedia"
+            android:background="@drawable/input_ios"
+            android:hint="@string/media"
+            android:layout_marginBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"/>
+
+        <EditText
+            android:id="@+id/etDesviacion"
+            android:background="@drawable/input_ios"
+            android:hint="@string/desviacion"
+            android:layout_marginBottom="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"/>
+
+        <!-- BOTONES -->
+        <Button
+            android:id="@+id/btnCalcular"
+            android:text="Calcular"
+            android:layout_marginBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:background="@drawable/boton_neon"/>
+
+        <Button
+            android:id="@+id/btnVerTabla"
+            android:text="Tabla Z"
+            android:layout_marginBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:background="@drawable/boton_neon"/>
+
+        <Button
+            android:id="@+id/btnIdioma"
+            android:text="Idioma"
+            android:layout_marginBottom="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:background="@drawable/boton_neon"/>
+
+        <!-- RESULTADO -->
+        <TextView
+            android:id="@+id/tvResultado"
+            android:text="Z = --"
+            android:textColor="#FF00FF"
+            android:textSize="24sp"
+            android:gravity="center"
+            android:layout_marginBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <!-- GRÁFICA -->
+        <com.example.calculadoraz.GraficaGaussView
+            android:id="@+id/graficaGauss"
+            android:layout_width="match_parent"
+            android:layout_height="260dp"
+            tools:ignore="MissingClass"/>
+
+        <SeekBar
+            android:id="@+id/sliderZ"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"/>
+
+        <!-- ACCIONES -->
+        <Button
+            android:id="@+id/btnCopiar"
+            android:text="Copiar"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"/>
+
+        <Button
+            android:id="@+id/btnCompartir"
+            android:text="Compartir"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"/>
+
+        <!-- HISTORIAL -->
+        <ListView
+            android:id="@+id/listHistorial"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"/>
+
+    </LinearLayout>
+</ScrollView>

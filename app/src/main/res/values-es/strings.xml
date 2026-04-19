@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Estadística Pro</string>
+    <string name="titulo">ESTADÍSTICA PRO</string>
+    <string name="valor_x">Valor X</string>
+    <string name="media">Media</string>
+    <string name="desviacion">Desviación</string>
+    <string name="calcular">CALCULAR</string>
+    <string name="tabla">TABLA Z</string>
+    <string name="idioma">IDIOMA</string>
+</resources>

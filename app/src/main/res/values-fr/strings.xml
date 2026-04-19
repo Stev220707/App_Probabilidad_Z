@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Statistiques Pro</string>
+    <string name="titulo">STATISTIQUES PRO</string>
+    <string name="valor_x">Valeur X</string>
+    <string name="media">Moyenne</string>
+    <string name="desviacion">Écart-type</string>
+    <string name="calcular">CALCULER</string>
+    <string name="tabla">TABLE Z</string>
+    <string name="idioma">LANGUE</string>
+</resources>

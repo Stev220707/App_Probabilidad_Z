@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Statistics Pro</string>
+    <string name="titulo">STATISTICS PRO</string>
+    <string name="valor_x">Value X</string>
+    <string name="media">Mean</string>
+    <string name="desviacion">Deviation</string>
+    <string name="calcular">CALCULATE</string>
+    <string name="tabla">Z TABLE</string>
+    <string name="idioma">LANGUAGE</string>
+</resources>
