@@ -2,7 +2,12 @@ package com.example.calculadoraz
 
 import android.content.*
 import android.content.res.Configuration
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
 import android.graphics.pdf.PdfDocument
+import android.net.Uri
 import android.os.*
 import android.text.InputFilter
 import android.text.InputType
@@ -10,6 +15,7 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.FileProvider
 import java.io.File
 import java.io.FileOutputStream
 import java.util.*
@@ -60,31 +66,79 @@ class MainActivity : AppCompatActivity() {
         historial.addAll(data)
     }
 
-    private fun exportarPDF(texto: String) {
+    // 🔥 FUNCIÓN PARA CREAR PDF CON GRÁFICA Y COMPARTIR
+    private fun exportarYCompartirPDF() {
+        val tvRes = findViewById<TextView>(R.id.tvResultado)
+        val grafica = findViewById<GraficaGaussView>(R.id.graficaGauss)
+        val resultadoTexto = tvRes.text.toString()
 
-        if (texto.isBlank() || texto == "Z = --") {
-            Toast.makeText(this, "No hay resultado para exportar", Toast.LENGTH_SHORT).show()
+        if (resultadoTexto == "Z = --" || resultadoTexto.isBlank()) {
+            Toast.makeText(this, "Realiza un cálculo primero", Toast.LENGTH_SHORT).show()
             return
         }
 
         val pdf = PdfDocument()
-        val pageInfo = PdfDocument.PageInfo.Builder(300, 600, 1).create()
+        val pageInfo = PdfDocument.PageInfo.Builder(595, 842, 1).create() // Tamaño A4
         val page = pdf.startPage(pageInfo)
-
         val canvas = page.canvas
-        val paint = android.graphics.Paint()
+        val paint = Paint()
 
-        paint.textSize = 16f
-        canvas.drawText("Resultado Z:", 10f, 30f, paint)
-        canvas.drawText(texto, 10f, 60f, paint)
+        // 1. Dibujar Encabezado
+        paint.color = Color.BLACK
+        paint.textSize = 26f
+        paint.isFakeBoldText = true
+        canvas.drawText("REPORTE ESTADÍSTICO PRO", 50f, 60f, paint)
+
+        // 2. Dibujar Resultado de Texto
+        paint.textSize = 18f
+        paint.isFakeBoldText = false
+        canvas.drawText("Resultado: $resultadoTexto", 50f, 110f, paint)
+
+        // 3. CAPTURAR LA GRÁFICA (BITMAP)
+        val bitmap = Bitmap.createBitmap(grafica.width, grafica.height, Bitmap.Config.ARGB_8888)
+        val canvasBitmap = Canvas(bitmap)
+        grafica.draw(canvasBitmap)
+
+        // Dibujar el Bitmap de la gráfica en el PDF
+        val escala = 0.7f
+        val rectDestino = android.graphics.Rect(
+            50, 150,
+            (50 + grafica.width * escala).toInt(),
+            (150 + grafica.height * escala).toInt()
+        )
+        canvas.drawBitmap(bitmap, null, rectDestino, null)
+
+        paint.textSize = 12f
+        paint.color = Color.GRAY
+        canvas.drawText("Generado por App Calculadora Z - 2026", 50f, 800f, paint)
 
         pdf.finishPage(page)
 
-        val file = File(getExternalFilesDir(null), "resultadoZ.pdf")
-        pdf.writeTo(FileOutputStream(file))
-        pdf.close()
+        // 4. GUARDAR Y LANZAR MENU DE COMPARTIR
+        try {
+            val file = File(getExternalFilesDir(null), "Reporte_Z.pdf")
+            val outputStream = FileOutputStream(file)
+            pdf.writeTo(outputStream)
+            pdf.close()
 
-        Toast.makeText(this, "PDF guardado:\n${file.path}", Toast.LENGTH_LONG).show()
+            // Obtener URI seguro mediante FileProvider
+            val contentUri: Uri = FileProvider.getUriForFile(
+                this,
+                "$packageName.fileprovider",
+                file
+            )
+
+            val shareIntent = Intent(Intent.ACTION_SEND).apply {
+                type = "application/pdf"
+                putExtra(Intent.EXTRA_STREAM, contentUri)
+                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            }
+
+            startActivity(Intent.createChooser(shareIntent, "Compartir con..."))
+
+        } catch (e: Exception) {
+            Toast.makeText(this, "Error al compartir: ${e.message}", Toast.LENGTH_LONG).show()
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -104,15 +158,16 @@ class MainActivity : AppCompatActivity() {
         val grafica = findViewById<GraficaGaussView>(R.id.graficaGauss)
         val listHistorial = findViewById<ListView>(R.id.listHistorial)
 
+        // Configuración de inputs
         val filtro = InputFilter.LengthFilter(10)
         listOf(etX, etMedia, etDesv).forEach {
             it.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
             it.filters = arrayOf(filtro)
         }
 
+        // Historial
         adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, historial)
         listHistorial.adapter = adapter
-
         cargarHistorial()
         adapter.notifyDataSetChanged()
 
@@ -120,7 +175,6 @@ class MainActivity : AppCompatActivity() {
 
         btnCalc.setOnClickListener {
             animarBoton(it)
-
             val x = etX.text.toString().toDoubleOrNull()
             val m = etMedia.text.toString().toDoubleOrNull()
             val d = etDesv.text.toString().toDoubleOrNull()
@@ -132,7 +186,6 @@ class MainActivity : AppCompatActivity() {
 
             val z = (x - m) / d
             val prob = 0.5 * (1 + erf(z / sqrt(2.0)))
-
             val resultado = "Z=%.4f | Prob=%.4f".format(z, prob)
 
             tvRes.text = resultado
@@ -143,14 +196,15 @@ class MainActivity : AppCompatActivity() {
             guardarHistorial()
         }
 
+        // --- CLIC PARA COMPARTIR ---
         btnCompartir.setOnClickListener {
             animarBoton(it)
-            Toast.makeText(this, "Mantén presionado para exportar PDF", Toast.LENGTH_SHORT).show()
+            exportarYCompartirPDF()
         }
 
         btnCompartir.setOnLongClickListener {
             animarBoton(it)
-            exportarPDF(tvRes.text.toString())
+            exportarYCompartirPDF()
             true
         }
 
@@ -158,7 +212,7 @@ class MainActivity : AppCompatActivity() {
             animarBoton(it)
             val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             clipboard.setPrimaryClip(ClipData.newPlainText("Z", tvRes.text))
-            Toast.makeText(this, "Copiado", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Copiado al portapapeles", Toast.LENGTH_SHORT).show()
         }
 
         btnTabla.setOnClickListener {
@@ -170,7 +224,7 @@ class MainActivity : AppCompatActivity() {
             animarBoton(it)
             val opciones = arrayOf("Español", "English", "Français", "Português")
             AlertDialog.Builder(this)
-                .setTitle("Idioma")
+                .setTitle("Seleccionar Idioma")
                 .setItems(opciones) { _, which ->
                     val lang = listOf("es","en","fr","pt")[which]
                     getSharedPreferences("config", MODE_PRIVATE)
@@ -181,7 +235,6 @@ class MainActivity : AppCompatActivity() {
 
         slider.max = 800
         slider.progress = 400
-
         slider.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 val z = (progress - 400) / 100f
