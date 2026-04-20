@@ -66,7 +66,7 @@ class MainActivity : AppCompatActivity() {
         historial.addAll(data)
     }
 
-    // 🔥 FUNCIÓN PARA CREAR PDF CON GRÁFICA Y COMPARTIR
+    // 🔥 FUNCIÓN EDITADA PARA QUE LA GRÁFICA SEA EXACTA EN EL PDF
     private fun exportarYCompartirPDF() {
         val tvRes = findViewById<TextView>(R.id.tvResultado)
         val grafica = findViewById<GraficaGaussView>(R.id.graficaGauss)
@@ -76,6 +76,12 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, "Realiza un cálculo primero", Toast.LENGTH_SHORT).show()
             return
         }
+
+        // --- CORRECCIÓN DE PRECISIÓN ---
+        // Extraemos el valor real de Z del texto para "congelar" la gráfica antes de la foto
+        val zParaCaptura = resultadoTexto.substringAfter("Z=").substringBefore(" |").toFloatOrNull() ?: 0f
+        grafica.dibujarZ(zParaCaptura)
+        // -------------------------------
 
         val pdf = PdfDocument()
         val pageInfo = PdfDocument.PageInfo.Builder(595, 842, 1).create() // Tamaño A4
