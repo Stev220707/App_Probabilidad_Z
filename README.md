@@ -1,5 +1,7 @@
-# 📊 Calculadora Z Pro
+## 📊 Calculadora Z Pro
 Aplicación Android para el cálculo de probabilidades bajo la curva de la distribución normal estándar (Campana de Gauss).
+
+---
 
 ## 🚀 Características
 * **Cálculos precisos**: Obtén el valor de Z y su probabilidad asociada.
@@ -7,10 +9,14 @@ Aplicación Android para el cálculo de probabilidades bajo la curva de la distr
 * **Exportación PDF**: Genera reportes estadísticos con gráfica incluida.
 * **Historial**: Guarda tus cálculos recientes de forma local.
 
+---
+
 ## 🛠️ Tecnologías
 * **Kotlin**: Lenguaje principal de desarrollo.
 * **Android SDK**: API 24+.
 * **FileProvider**: Para compartir documentos de forma segura.
+
+---
 
 ## 📂 Clonación (Para Desarrolladores)
 
