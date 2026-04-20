@@ -12,12 +12,21 @@ Aplicación Android para el cálculo de probabilidades bajo la curva de la distr
 * **Android SDK**: API 24+.
 * **FileProvider**: Para compartir documentos de forma segura.
 
-## ​📂 Clonación (Para Desarrolladores)
-​Clona este repositorio usando git clone.
-​Abre el proyecto en Android Studio.
-​Realiza un Clean Project y Rebuild para corregir posibles errores de caché.
+## 📂 Clonación (Para Desarrolladores)
 
-## ​📦 Instalación (Para Usuarios)
-​Ve a la sección de Releases en este repositorio de GitHub.
-​Descarga el archivo Calculadora_Z.apk.
-​Abre el archivo en tu dispositivo Android e instálalo (asegúrate de permitir orígenes desconocidos).
+1. **Clona este repositorio** usando `git clone`.
+
+2. **Abre el proyecto** en Android Studio.
+
+3. **Realiza un Clean Project y Rebuild** para corregir posibles errores de caché.
+
+---
+
+## 📦 Instalación (Para Usuarios)
+
+1. Ve a la sección de **Releases** en este repositorio de GitHub.
+
+2. Descarga el archivo **Calculadora_Z.apk**.
+
+3. Abre el archivo en tu dispositivo Android e instálalo (asegúrate de permitir orígenes desconocidos).
+
