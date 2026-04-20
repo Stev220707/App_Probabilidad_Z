@@ -20,5 +20,4 @@ Aplicación Android para el cálculo de probabilidades bajo la curva de la distr
 ## ​📦 Instalación (Para Usuarios)
 ​Ve a la sección de Releases en este repositorio de GitHub.
 ​Descarga el archivo Calculadora_Z.apk.
-
 ​Abre el archivo en tu dispositivo Android e instálalo (asegúrate de permitir orígenes desconocidos).
